@@ -140,6 +140,7 @@ while true; do
     if [[ "${attempt}" -gt "${last_run:-$MAX_ATTEMPTS}" ]]; then
       echo -e "${color_yellow:-}Detected ${ready} ready nodes, found ${found} nodes out of expected ${EXPECTED_NUM_NODES}. Your cluster may not be fully functional.${color_norm}"
       kubectl_retry get nodes
+      kubectl_retry get pods -n kube-system -o wide
       if [[ "${REQUIRED_NUM_NODES}" -gt "${ready}" ]]; then
         exit 1
       else
